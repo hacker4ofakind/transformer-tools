@@ -34,13 +34,13 @@ The easiest way to start the application is to use the provided startup scripts:
 
 #### Windows
 Simply run the `start_app.bat` file:
-```
+```ps
 start_app.bat
 ```
 
 #### Linux/Mac
 Run the shell script:
-```
+```bash
 chmod +x start_app.sh  # Make it executable (first time only)
 ./start_app.sh
 ```
