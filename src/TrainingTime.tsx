@@ -152,8 +152,22 @@ useEffect(() => {
     setShouldSave(true);
   }
 
-  const formatNumber = (num: number) => {
-    return num<=30 ? new Intl.NumberFormat().format(num) : new Intl.NumberFormat().format(num/30)
+  const formatTime = (days: number) => {
+    if (days === 0) return '0 Days';
+    if (days >= 365) {
+      const years = Math.round((days / 365) * 2) / 2;
+      return `${years} Year${years !== 1 ? 's' : ''}`;
+    }
+    if (days >= 30) {
+      const months = Math.round(days / 30);
+      return `${months} Month${months !== 1 ? 's' : ''}`;
+    }
+    const weeks = Math.round(days / 7);
+    if (weeks >= 1) {
+      return `${weeks} Week${weeks !== 1 ? 's' : ''}`;
+    }
+    const roundedDays = Math.round(days);
+    return `${roundedDays} Day${roundedDays !== 1 ? 's' : ''}`;
   }
 
   return (
@@ -184,10 +198,9 @@ useEffect(() => {
         
         <div className="max-h-[140px] bg-linear-to-b from-gray-50 to-gray-200 p-4 rounded-xl flex flex-col gap-2 justify-center items-center">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">Results</h2>
-            <div className="bg-linear-60 from-indigo-100 to-blue-500 px-6 py-3 rounded-2xl max-w-[600px]">
-              {results.days <=30 ? <p className="text-sm font-medium text-indigo-800">Days</p>
-              : <p className="text-sm font-medium text-indigo-800">Months</p>}
-              <p className="text-xl font-bold text-indigo-900">{formatNumber(results.days)}</p>
+            <div className="bg-linear-60 from-indigo-100 to-blue-500 px-6 py-3 rounded-2xl max-w-[600px] flex flex-col items-center">
+              <p className="text-sm font-medium text-indigo-800">Estimated Time</p>
+              <p className="text-xl font-bold text-indigo-900">{formatTime(results.days)}</p>
             </div>
         </div>
       </div>
