@@ -6,7 +6,7 @@ import NumInput from './components'
 async function saveGpusToDatabase(gpus: number) {
     try {
       if(gpus !== 0) {
-        await fetch('http://localhost:8000/items/gpus', {
+        await fetch('/api/items/gpus', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ async function saveGpusToDatabase(gpus: number) {
 async function saveTflopsToDatabase(tflops: number) {
     try {
       if(tflops !== 0) {
-        await fetch('http://localhost:8000/items/tflops', {
+        await fetch('/api/items/tflops', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ async function saveTflopsToDatabase(tflops: number) {
 async function saveTokensToDatabase(tokens: number) {
     try {
       if(tokens !== 0) {
-        await fetch('http://localhost:8000/items/tokens', {
+        await fetch('/api/items/tokens', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ useEffect(() => {
       
       for (const name of paramNames) {
         try {
-          const response = await fetch(`http://localhost:8000/items/${name}`);
+          const response = await fetch(`/api/items/${name}`);
           if (response.ok) {
             const data = await response.json();
             // Now TypeScript knows this is a valid key

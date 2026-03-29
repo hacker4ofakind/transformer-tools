@@ -62,7 +62,6 @@ fi
 
 # Install backend dependencies
 echo "Installing backend dependencies..."
-cd backend
 pip install -r requirements.txt
 if [ $? -ne 0 ]; then
     print_error "Failed to install Python dependencies."
@@ -72,20 +71,19 @@ fi
 # Start backend in a new terminal
 echo "Starting backend..."
 if command -v gnome-terminal &> /dev/null; then
-    gnome-terminal -- bash -c "python backend.py; exec bash"
+    gnome-terminal -- bash -c "python api/index.py; exec bash"
 elif command -v xterm &> /dev/null; then
-    xterm -e "python backend.py; bash" &
+    xterm -e "python api/index.py; bash" &
 elif command -v konsole &> /dev/null; then
-    konsole --new-tab -e "python backend.py; bash" &
+    konsole --new-tab -e "python api/index.py; bash" &
 else
     # Fallback to background process if no terminal emulator is found
-    python backend.py &
+    python api/index.py &
     backend_pid=$!
     echo "Backend running in background (PID: $backend_pid)"
 fi
 
-# Change back to the original directory
-cd ..
+# Removed cd ..
 
 # Display success message
 print_success "Transformer tools website running."

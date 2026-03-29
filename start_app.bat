@@ -60,7 +60,6 @@ start cmd /k "npm run start"
 
 REM Install backend dependencies
 echo Installing backend dependencies...
-cd backend
 pip install -r requirements.txt
 if %ERRORLEVEL% neq 0 (
     color 0C
@@ -71,7 +70,7 @@ if %ERRORLEVEL% neq 0 (
 
 REM Start backend in a new terminal
 echo Starting backend...
-start cmd /k "python backend.py"
+start cmd /k "python api\index.py"
 
 REM Display success message
 color 0A
@@ -81,7 +80,6 @@ color 0B
 echo Access the frontend at: http://localhost:4173
 echo Backend API available at: http://localhost:8000
 
-cd ..
 echo.
 echo Press any key to close this window...
 pause >nul 

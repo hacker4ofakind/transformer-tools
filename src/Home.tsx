@@ -7,7 +7,7 @@ async function saveParametersToDatabase(results: {total: number, inference: numb
   try {
     if(parameters.vocabSize !== 0 && parameters.embeddingDim !== 0 && parameters.attentionHeads !== 0 && parameters.neurons !== 0 && parameters.experts !== 0 && parameters.layers !== 0) {
     // Save total
-    await fetch('http://localhost:8000/items/total', {
+    await fetch('/api/items/total', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ async function saveParametersToDatabase(results: {total: number, inference: numb
     });
 
     // Save parameters
-    await fetch('http://localhost:8000/items/vocabSize', {
+    await fetch('/api/items/vocabSize', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ async function saveParametersToDatabase(results: {total: number, inference: numb
       }),
     });
     
-    await fetch('http://localhost:8000/items/embeddingDim', {
+    await fetch('/api/items/embeddingDim', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ async function saveParametersToDatabase(results: {total: number, inference: numb
       }),
     });
     
-    await fetch('http://localhost:8000/items/attentionHeads', {
+    await fetch('/api/items/attentionHeads', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ async function saveParametersToDatabase(results: {total: number, inference: numb
       }),
     });
     
-    await fetch('http://localhost:8000/items/neurons', {
+    await fetch('/api/items/neurons', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ async function saveParametersToDatabase(results: {total: number, inference: numb
       }),
     });
     
-    await fetch('http://localhost:8000/items/experts', {
+    await fetch('/api/items/experts', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ async function saveParametersToDatabase(results: {total: number, inference: numb
       }),
     });
     
-    await fetch('http://localhost:8000/items/layers', {
+    await fetch('/api/items/layers', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -138,7 +138,7 @@ useEffect(() => {
       
       for (const name of paramNames) {
         try {
-          const response = await fetch(`http://localhost:8000/items/${name}`);
+          const response = await fetch(`/api/items/${name}`);
           if (response.ok) {
             const data = await response.json();
             // Now TypeScript knows this is a valid key
