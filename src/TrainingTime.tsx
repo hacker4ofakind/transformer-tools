@@ -79,9 +79,14 @@ function TrainingTime() {
   const avgTflops = cluster.gpus > 0 ? cluster.tf / cluster.gpus : 0
 
   // Training time
-  const multiplier = modelType === 'Diffusion' ? params.diffusionSteps : 1
-  const days = (cluster.gpus > 0 && avgTflops > 0 && params.total > 0 && params.tokens > 0)
-    ? (8 * params.total * params.tokens * multiplier * params.epochs) / (cluster.gpus * avgTflops) / 86400
+  // ARM:      iterations = total tokens
+  // Diffusion: iterations = samples * diffusionSteps  (each sample = N denoising steps)
+  const effectiveSamples = effectiveAvgLen > 0 ? params.tokens / effectiveAvgLen : 0
+  const iterations = modelType === 'Diffusion'
+    ? effectiveSamples * params.diffusionSteps
+    : params.tokens
+  const days = (cluster.gpus > 0 && avgTflops > 0 && params.total > 0 && iterations > 0)
+    ? (8 * params.total * iterations * params.epochs) / (cluster.gpus * avgTflops) / 86400
     : 0
 
   // Load from DB on mount
@@ -250,8 +255,8 @@ function TrainingTime() {
           {effectiveAvgLen > 0 && params.tokens > 0 && (
             <p className="text-xs text-gray-400 mt-1">
               Avg sample length: <span className="text-gray-600 font-medium">{fmtNum(effectiveAvgLen)} tokens</span>
-              {modelType === 'Diffusion' && params.diffusionSteps > 0 && (
-                <> → <span className="text-gray-600 font-medium">{fmtNum(Math.round(effectiveAvgLen / params.diffusionSteps))}</span> iterations/sample (÷{params.diffusionSteps} steps)</>
+              {modelType === 'Diffusion' && params.diffusionSteps > 0 && effectiveSamples > 0 && (
+                <> → <span className="text-gray-600 font-medium">{fmtNum(Math.round(effectiveSamples))} samples × {params.diffusionSteps} steps = </span><span className="text-indigo-600 font-medium">{fmtNum(Math.round(effectiveSamples * params.diffusionSteps))} total iterations</span></>
               )}
             </p>
           )}
